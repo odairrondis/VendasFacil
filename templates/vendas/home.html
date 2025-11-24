@@ -1,0 +1,214 @@
+{% extends 'base.html' %}
+
+{% block title %}Dashboard - Vendas Facil{% endblock %}
+
+{% block content %}
+<style>
+    body {
+        background-color: #233D4D !important;
+        color: #E0E0E0; /* Default text color for body */
+    }
+    .dashboard-container {
+        background-color: #233D4D;
+        min-height: 100vh;
+        padding: 20px 0;
+    }
+    .card {
+        background-color: #2E4A5C; /* Darker shade for card body */
+        border: 1px solid rgba(255, 255, 255, 0.1); /* Subtle light border */
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3); /* Stronger shadow */
+        margin-bottom: 20px;
+        border-radius: 0.75rem; /* Slightly more rounded corners */
+        color: #E0E0E0; /* Default text color for card */
+    }
+    .card-header {
+        background-color: #3A5C70; /* Distinct dark shade for header */
+        border-bottom: 1px solid rgba(255, 255, 255, 0.2); /* Subtle border */
+        color: #FFFFFF; /* White text for header */
+        border-top-left-radius: calc(0.75rem - 1px); /* Match card border-radius */
+        border-top-right-radius: calc(0.75rem - 1px);
+    }
+    .card-header h5 {
+        color: #FFFFFF !important; /* Ensure header text is white */
+    }
+    .text-white-50 {
+        color: rgba(255, 255, 255, 0.7) !important; /* Ensure visibility on dark background */
+    }
+    .text-muted {
+        color: rgba(255, 255, 255, 0.6) !important; /* Lighter muted text for dark theme */
+    }
+    /* Adjusting the bg-opacity-10 elements for better visibility on dark cards */
+    .p-3.bg-danger.bg-opacity-10 {
+        background-color: rgba(220, 53, 69, 0.2) !important; /* Darker red tint */
+    }
+    .p-3.bg-warning.bg-opacity-10 {
+        background-color: rgba(255, 193, 7, 0.2) !important; /* Darker yellow tint */
+    }
+    .p-3.bg-info.bg-opacity-10 {
+        background-color: rgba(23, 162, 184, 0.2) !important; /* Darker blue tint */
+    }
+    /* Ensure button colors are consistent or stand out */
+    .btn-primary { background-color: #007bff; border-color: #007bff; }
+    .btn-info { background-color: #17a2b8; border-color: #17a2b8; }
+    .btn-warning { background-color: #ffc107; border-color: #ffc107; }
+    .btn-success { background-color: #28a745; border-color: #28a745; }
+    .btn-secondary { background-color: #6c757d; border-color: #6c757d; }
+    /* Hover states for buttons */
+    .btn-primary:hover { background-color: #0056b3; border-color: #0056b3; }
+    .btn-info:hover { background-color: #138496; border-color: #138496; }
+    .btn-warning:hover { background-color: #e0a800; border-color: #e0a800; }
+    .btn-success:hover { background-color: #218838; border-color: #218838; }
+    .btn-secondary:hover { background-color: #545b62; border-color: #545b62; }
+
+    /* Specific text colors for the values inside the p-3 divs */
+    .text-danger { color: #dc3545 !important; } /* Bootstrap default danger */
+    .text-warning { color: #ffc107 !important; } /* Bootstrap default warning */
+    .text-info { color: #17a2b8 !important; } /* Bootstrap default info */
+</style>
+
+<div class="dashboard-container">
+    <div class="row mt-4">
+        <!-- Cabeçalho -->
+        <div class="col-12 mb-4">
+            <h1 class="fw-bold text-white">
+                <i class="fas fa-home"></i> Início
+            </h1>
+            <p class="text-white-50">Bem-vindo, {{ user.first_name|default:user.username }}!</p>
+        </div>
+    </div>
+
+    <!-- Menu de Ações -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <i class="fas fa-tasks"></i> Ações Rápidas
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-12 col-sm-6 col-md-4 col-lg-2-4 mb-2">
+                            <a href="{% url 'vendas:vendas_list' %}" class="btn btn-primary w-100">
+                                <i class="fas fa-plus"></i> Nova Venda
+                            </a>
+                        </div>
+                        <div class="col-12 col-sm-6 col-md-4 col-lg-2-4 mb-2">
+                            <a href="{% url 'vendas:contas_receber_list' %}" class="btn btn-info w-100">
+                                <i class="fas fa-arrow-down"></i> A Receber
+                            </a>
+                        </div>
+                        <div class="col-12 col-sm-6 col-md-4 col-lg-2-4 mb-2">
+                            <a href="{% url 'vendas:contas_pagar_list' %}" class="btn btn-warning w-100">
+                                <i class="fas fa-arrow-up"></i> A Pagar
+                            </a>
+                        </div>
+                        <div class="col-12 col-sm-6 col-md-4 col-lg-2-4 mb-2">
+                            <a href="{% url 'vendas:clientes_list' %}" class="btn btn-success w-100">
+                                <i class="fas fa-users"></i> Clientes
+                            </a>
+                        </div>
+                        <div class="col-12 col-sm-6 col-md-4 col-lg-2-4 mb-2">
+                            <a href="{% url 'vendas:produtos_list' %}" class="btn btn-secondary w-100">
+                                <i class="fas fa-box"></i> Produtos
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Contas a Receber -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <i class="fas fa-arrow-down"></i> Contas a Receber
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <!-- Vencidas -->
+                        <div class="col-12 col-sm-6 col-md-4 mb-3">
+                            <div class="p-3 bg-danger bg-opacity-10 rounded">
+                                <p class="text-muted mb-1">
+                                    <i class="fas fa-exclamation-circle"></i> Vencidas
+                                </p>
+                                <h4 class="fw-bold text-danger">R$ {{ contas_receber_vencidas|floatformat:2 }}</h4>
+                            </div>
+                        </div>
+
+                        <!-- Vence Hoje -->
+                        <div class="col-12 col-sm-6 col-md-4 mb-3">
+                            <div class="p-3 bg-warning bg-opacity-10 rounded">
+                                <p class="text-muted mb-1">
+                                    <i class="fas fa-calendar-day"></i> Vence Hoje
+                                </p>
+                                <h4 class="fw-bold text-warning">R$ {{ contas_receber_hoje|floatformat:2 }}</h4>
+                            </div>
+                        </div>
+
+                        <!-- Pendentes -->
+                        <div class="col-12 col-sm-6 col-md-4 mb-3">
+                            <div class="p-3 bg-info bg-opacity-10 rounded">
+                                <p class="text-muted mb-1">
+                                    <i class="fas fa-hourglass-half"></i> Pendentes
+                                </p>
+                                <h4 class="fw-bold text-info">{{ contas_receber_pendentes }}</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Contas a Pagar -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <i class="fas fa-arrow-up"></i> Contas a Pagar
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <!-- Vencidas -->
+                        <div class="col-12 col-sm-6 col-md-4 mb-3">
+                            <div class="p-3 bg-danger bg-opacity-10 rounded">
+                                <p class="text-muted mb-1">
+                                    <i class="fas fa-exclamation-circle"></i> Vencidas
+                                </p>
+                                <h4 class="fw-bold text-danger">R$ {{ contas_pagar_vencidas|floatformat:2 }}</h4>
+                            </div>
+                        </div>
+
+                        <!-- Vence Hoje -->
+                        <div class="col-12 col-sm-6 col-md-4 mb-3">
+                            <div class="p-3 bg-warning bg-opacity-10 rounded">
+                                <p class="text-muted mb-1">
+                                    <i class="fas fa-calendar-day"></i> Vence Hoje
+                                </p>
+                                <h4 class="fw-bold text-warning">R$ {{ contas_pagar_hoje|floatformat:2 }}</h4>
+                            </div>
+                        </div>
+
+                        <!-- Pendentes -->
+                        <div class="col-12 col-sm-6 col-md-4 mb-3">
+                            <div class="p-3 bg-info bg-opacity-10 rounded">
+                                <p class="text-muted mb-1">
+                                    <i class="fas fa-hourglass-half"></i> Pendentes
+                                </p>
+                                <h4 class="fw-bold text-info">{{ contas_pagar_pendentes }}</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

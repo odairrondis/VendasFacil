@@ -1,0 +1,118 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Registro - Vendas Facil{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center align-items-center" style="min-height: 100vh; background-color: #233D4D;">
+    <div class="col-12 col-sm-10 col-md-8 col-lg-5">
+        <!-- Card de Registro -->
+        <div class="card shadow-lg" style="background-color: #2E4A5C; border: 1px solid #3A5C70;">
+            <div class="card-body p-5">
+                <!-- Logo/Título -->
+                <div class="text-center mb-4">
+                    <img src="{% static 'img/logo.png' %}" alt="Vendas Facil" style="height: 200px; margin-bottom: 5px;">
+                    <h2 class="mt-3 fw-bold" style="color: #ffffff;">Criar Conta</h2>
+                    <p style="color: #b0bec5;">Comece a gerenciar suas vendas</p>
+                </div>
+
+                <!-- Formulário de Registro -->
+                <form method="POST" action="{% url 'vendas:registro' %}">
+                    {% csrf_token %}
+
+                    <!-- Nome Completo -->
+                    <div class="mb-3">
+                        <label for="nome_completo" class="form-label" style="color: #ffffff;">
+                            <i class="fas fa-user"></i> Nome Completo
+                        </label>
+                        <input 
+                            type="text" 
+                            class="form-control" 
+                            id="nome_completo" 
+                            name="nome_completo" 
+                            placeholder="Seu nome completo"
+                            required
+                            autofocus
+                            style="background-color: #1a2a35; color: #ffffff; border: 1px solid #3A5C70;"
+                        >
+                    </div>
+
+                    <!-- Email -->
+                    <div class="mb-3">
+                        <label for="email" class="form-label" style="color: #ffffff;">
+                            <i class="fas fa-envelope"></i> Email
+                        </label>
+                        <input 
+                            type="email" 
+                            class="form-control" 
+                            id="email" 
+                            name="email" 
+                            placeholder="seu@email.com"
+                            required
+                            style="background-color: #1a2a35; color: #ffffff; border: 1px solid #3A5C70;"
+                        >
+                    </div>
+
+                    <!-- Senha -->
+                    <div class="mb-3">
+                        <label for="senha" class="form-label" style="color: #ffffff;">
+                            <i class="fas fa-lock"></i> Senha
+                        </label>
+                        <input 
+                            type="password" 
+                            class="form-control" 
+                            id="senha" 
+                            name="senha" 
+                            placeholder="Mínimo 6 caracteres"
+                            required
+                            style="background-color: #1a2a35; color: #ffffff; border: 1px solid #3A5C70;"
+                        >
+                        <small style="color: #b0bec5;">Mínimo 6 caracteres</small>
+                    </div>
+
+                    <!-- Confirmar Senha -->
+                    <div class="mb-4">
+                        <label for="confirmar_senha" class="form-label" style="color: #ffffff;">
+                            <i class="fas fa-lock"></i> Confirmar Senha
+                        </label>
+                        <input 
+                            type="password" 
+                            class="form-control" 
+                            id="confirmar_senha" 
+                            name="confirmar_senha" 
+                            placeholder="Repita sua senha"
+                            required
+                            style="background-color: #1a2a35; color: #ffffff; border: 1px solid #3A5C70;"
+                        >
+                    </div>
+
+                    <!-- Botão de Registro -->
+                    <button type="submit" class="btn btn-success w-100 py-2 fw-bold" style="background-color: #27ae60; border: none;">
+                        <i class="fas fa-user-plus"></i> Criar Conta
+                    </button>
+                </form>
+
+                <!-- Divisor -->
+                <hr class="my-4" style="border-color: #3A5C70;">
+
+                <!-- Link para Login -->
+                <div class="text-center">
+                    <p style="color: #b0bec5; margin-bottom: 0;">
+                        Já tem conta?
+                        <a href="{% url 'vendas:login' %}" class="fw-bold text-decoration-none" style="color: #0288d1;">
+                            Faça login aqui
+                        </a>
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Rodapé -->
+        <div class="text-center mt-4">
+            <p style="color: #b0bec5; font-size: 0.875rem;">
+                <i class="fas fa-lock"></i> Seus dados estão seguros
+            </p>
+        </div>
+    </div>
+</div>
+{% endblock %}
